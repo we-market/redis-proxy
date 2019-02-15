@@ -1,0 +1,35 @@
+plugins {
+    id 'org.springframework.boot' version '2.1.2.RELEASE'
+    id 'java'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+group = 'cn.wemarket'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+    mavenCentral()
+}
+
+def jedis = [
+        "redis.clients:jedis:2.9.0"
+]
+
+configurations {
+    //remove default logger
+    providedRuntime
+    compile.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    compile ('org.springframework.boot:spring-boot-starter-log4j2')
+    
+    compile jedis
+    testCompile jedis
+    runtime jedis
+}
